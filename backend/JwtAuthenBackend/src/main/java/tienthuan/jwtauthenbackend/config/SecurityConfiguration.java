@@ -12,9 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import tienthuan.jwtauthenbackend.service.common.LogoutService;
+
 import java.util.List;
 
 @Configuration
@@ -28,8 +31,8 @@ public class SecurityConfiguration {
 
     private final ConstantConfiguration constant;
 
-    private final LogoutHandler logoutHandler;
-    //
+    private final LogoutService logoutService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -47,13 +50,12 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(
-                        logout -> logout.logoutUrl(constant.LOGOUT_HANDLER_URL)
-                                .addLogoutHandler(logoutHandler)
-                                .logoutSuccessHandler((
-                                        (request, response, authentication) -> SecurityContextHolder.clearContext()
-                                ))
-                )
-        ;
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher(constant.LOGOUT_HANDLER_URL))
+                                .addLogoutHandler(logoutService)
+                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                );
+
         return http.build();
     }
 

@@ -23,10 +23,12 @@ public class LogoutService implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         final String authHeader = request.getHeader(constant.HTTP_HEADER_AUTHORIZATION);
+        System.out.println("*Header: "+authHeader);
         if (authHeader == null || !authHeader.startsWith(constant.HTTP_HEADER_AUTHORIZATION_BEARER))
             return;
         String jwt = authHeader.substring(constant.HTTP_HEADER_AUTHORIZATION_BEARER.length());
-        Token token = tokenRepository.findByToken(jwt).orElseThrow();
+        Token token = tokenRepository.findByToken(jwt).orElse(null);
+        System.out.println("Token: "+token);
         if(token != null) {
             token.setExpired(constant.JWT_EXPIRED_ENABLE);
             token.setRevoked(constant.JWT_REVOKED_ENABLE);

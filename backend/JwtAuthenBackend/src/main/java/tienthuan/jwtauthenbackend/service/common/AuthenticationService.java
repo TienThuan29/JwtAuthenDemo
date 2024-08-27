@@ -71,8 +71,8 @@ public class AuthenticationService {
         List<Token> validTokenList = tokenRepository.findAllValidTokenByUser(user.getId());
         if (!validTokenList.isEmpty()) {
             validTokenList.forEach(token -> {
-                token.setExpired(true);
-                token.setRevoked(true);
+                token.setExpired(constant.JWT_EXPIRED_ENABLE);
+                token.setRevoked(constant.JWT_REVOKED_ENABLE);
             });
             tokenRepository.saveAll(validTokenList);
         }
@@ -154,7 +154,7 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
                 return authResponse;
             }
-            else throw new TokenIsInvalidException(messageConfig.ERROR_JWT_INVALID_TOKEN);
+            //else throw new TokenIsInvalidException(messageConfig.ERROR_JWT_INVALID_TOKEN);
         }
         return new AuthenticationResponse(null, null);
     }

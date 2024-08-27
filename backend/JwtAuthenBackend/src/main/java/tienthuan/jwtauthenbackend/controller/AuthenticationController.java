@@ -44,10 +44,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.refreshToken(request, response));
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request,HttpServletResponse response, Authentication authentication) {
-        logoutService.logout(request, response, authentication);
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("/logout")
+//    public ResponseEntity<String> logout(HttpServletRequest request,HttpServletResponse response, Authentication authentication) {
+//        logoutService.logout(request, response, authentication);
+//        return ResponseEntity.ok("Logout successfully!");
+//    }
 
 }

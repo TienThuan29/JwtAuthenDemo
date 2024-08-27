@@ -21,4 +21,5 @@ public class UserInfoController {
         UserDTO userDTO = authenticationService.getUserInfo(token.trim());
         return ResponseEntity.ok(userDTO);
     }
+    
 }

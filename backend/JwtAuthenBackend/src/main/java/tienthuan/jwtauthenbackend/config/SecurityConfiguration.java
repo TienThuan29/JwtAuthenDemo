@@ -33,12 +33,12 @@ public class SecurityConfiguration {
                 .cors(
                         cors -> cors.configurationSource(corsConfigurationSource())
                 )
-                .authorizeRequests()
-                .requestMatchers(constant.API_ALL_AUTH)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .authorizeHttpRequests( request -> request
+                        .requestMatchers(constant.API_ALL_AUTH)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -49,20 +49,21 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         //Can make the below setting as * to allow connection from any host
-        corsConfiguration.setAllowedOrigins(List.of(constant.USER_INTERFACE_URL));
+        corsConfiguration.setAllowedOrigins(List.of(constant.USER_INTERFACE_URL)); // http://localhost:300
         corsConfiguration.setAllowedMethods(
                 List.of(
-                        constant.USER_INTERFACE_METHOD_GET,
-                        constant.USER_INTERFACE_METHOD_POST
+                        constant.USER_INTERFACE_METHOD_GET,  // GET
+                        constant.USER_INTERFACE_METHOD_POST  // POST
                 )
         );
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedHeaders(
-                List.of(constant.CORS_ALLOWED_HEADER)
+                List.of(constant.CORS_ALLOWED_HEADER)   // *
         );
-        corsConfiguration.setMaxAge(constant.CORS_MAX_AGE);
+        corsConfiguration.setMaxAge(constant.CORS_MAX_AGE); //
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration(constant.CORS_PATTERN, corsConfiguration);
+        source.registerCorsConfiguration(constant.CORS_PATTERN, corsConfiguration);  //  **
         return source;
     }
+
 }

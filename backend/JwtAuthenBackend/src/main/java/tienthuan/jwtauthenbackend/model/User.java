@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Builder
@@ -37,6 +38,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

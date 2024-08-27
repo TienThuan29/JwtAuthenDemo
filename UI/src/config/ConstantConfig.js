@@ -1,5 +1,6 @@
 // constant definition
-export const AUTH_TOKEN = "auth_token";
+export const ACCESS_TOKEN_KEY = "access_token";
+export const REFRESH_TOKEN_KEY = "refresh_token";
 
 // url definition
 export const DEFAULT_PAGE = "/"

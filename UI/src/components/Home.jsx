@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AUTH_TOKEN, LOGIN_PAGE } from '../config/ConstantConfig';
+import { ACCESS_TOKEN_KEY, LOGIN_PAGE, REFRESH_TOKEN_KEY } from '../config/ConstantConfig';
 import AuthenticationAPI from '../service/AuthenticationAPI';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,11 +11,16 @@ export default function Home() {
         fullname: ''
     });
 
-    const token = localStorage.getItem(AUTH_TOKEN);
+    const access_token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    const refresh_token = localStorage.getItem(REFRESH_TOKEN_KEY);
+
+    console.log("access_token: ",access_token);
+    console.log("refesh_token: ",refresh_token);
+    
 
     useEffect(()=> {
-        if (token) {
-            AuthenticationAPI.getInfo(token).then(
+        if (access_token) {
+            AuthenticationAPI.getInfo(access_token).then(
                 (response) => {
                     setUser(response.data);
                 }
@@ -29,7 +34,7 @@ export default function Home() {
     }, []);
 
     const logout = () => {
-        localStorage.removeItem(AUTH_TOKEN);
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
         navigator(LOGIN_PAGE);
     }
 

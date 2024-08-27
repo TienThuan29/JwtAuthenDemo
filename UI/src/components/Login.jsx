@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AuthenticationAPI from '../service/AuthenticationAPI';
 import { useNavigate } from 'react-router-dom';
-import { AUTH_TOKEN, HOME_PAGE, REGISTER_PAGE } from '../config/ConstantConfig';
+import { ACCESS_TOKEN_KEY, HOME_PAGE, REFRESH_TOKEN_KEY, REGISTER_PAGE } from '../config/ConstantConfig';
 
 export default function Login() {
 
@@ -34,7 +34,8 @@ export default function Login() {
         if (authRequest.username && authRequest.password) {
             AuthenticationAPI.authenticate(authRequest).then(
                 (response) => {
-                    localStorage.setItem(AUTH_TOKEN, response.data.token);
+                    localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access_token);
+                    localStorage.setItem(REFRESH_TOKEN_KEY, response.data.refresh_token);
                     navigator(HOME_PAGE);
                 }
             )

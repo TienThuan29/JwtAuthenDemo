@@ -24,6 +24,7 @@ public class ConstantConfiguration {
     public final Boolean JWT_EXPIRED_ENABLE;
     public final String HTTP_HEADER_AUTHORIZATION;
     public final String HTTP_HEADER_AUTHORIZATION_BEARER;
+    public final String LOGOUT_HANDLER_URL;
 
     public ConstantConfiguration(
             @Value("${url.ui}") String user_interface_url,
@@ -41,7 +42,8 @@ public class ConstantConfiguration {
             @Value("${jwt.revoked.disable}") Boolean jwt_revoked_disable,
             @Value("${jwt.revoked.enable}") Boolean jwt_revoked_enable,
             @Value("${auth.header}") String http_header_authorization,
-            @Value("${auth.header.bearer}") String http_header_authorization_bearer
+            @Value("${auth.header.bearer}") String http_header_authorization_bearer,
+            @Value("${url.logout}") String logout
     ) {
         this.SECRET_KEY = key;
         this.USER_INTERFACE_URL = user_interface_url;
@@ -59,6 +61,7 @@ public class ConstantConfiguration {
         this.JWT_EXPIRED_ENABLE = jwt_expired_enable;
         this.HTTP_HEADER_AUTHORIZATION = http_header_authorization;
         this.HTTP_HEADER_AUTHORIZATION_BEARER = http_header_authorization_bearer;
+        this.LOGOUT_HANDLER_URL = logout;
     }
 
 }

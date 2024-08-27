@@ -41,9 +41,6 @@ const AuthenticationAPI = {
         return axios.get(GET_USER_INFO, {
             headers: {
                 "Authorization" : `Bearer ${access_token}`      
-            },
-            params: {
-                token: access_token
             }
         });
     }

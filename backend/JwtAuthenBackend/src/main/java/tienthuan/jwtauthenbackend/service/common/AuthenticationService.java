@@ -160,9 +160,15 @@ public class AuthenticationService {
     }
 
 
-    public UserDTO getUserInfo(String token) {
-        String username = jwtService.extractUsername(token);
+    public UserDTO getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+        final String authHeader = request.getHeader(constant.HTTP_HEADER_AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith(constant.HTTP_HEADER_AUTHORIZATION_BEARER))
+            throw new TokenIsInvalidException(messageConfig.ERROR_JWT_INVALID_TOKEN);
+
+        String jwt = authHeader.substring(constant.HTTP_HEADER_AUTHORIZATION_BEARER.length());
+        String username = jwtService.extractUsername(jwt);
         User user = (User) userDetailsService.loadUserByUsername(username);
+
         return UserDTO.builder()
                 .username(user.getUsername())
                 .fullname(user.getFullname())

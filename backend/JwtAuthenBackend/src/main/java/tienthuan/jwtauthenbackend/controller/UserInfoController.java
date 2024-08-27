@@ -1,5 +1,7 @@
 package tienthuan.jwtauthenbackend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +19,8 @@ public class UserInfoController {
     private AuthenticationService authenticationService;
 
     @GetMapping("/info")
-    public ResponseEntity<UserDTO> getUserInfoFromToken(@RequestParam String token) {
-        UserDTO userDTO = authenticationService.getUserInfo(token.trim());
+    public ResponseEntity<UserDTO> getUserInfoFromToken(HttpServletRequest request, HttpServletResponse response) {
+        UserDTO userDTO = authenticationService.getUserInfo(request, response);
         return ResponseEntity.ok(userDTO);
     }
     
